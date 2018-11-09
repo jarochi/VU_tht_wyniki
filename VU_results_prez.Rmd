@@ -21,7 +21,11 @@ peptydy <- read.csv("amyloid_heatmap.csv")
 peptydy <- peptydy[1:(nrow(peptydy)-1),]
 peptydy <- peptydy %>% mutate(match = ifelse(peptydy$database == peptydy$tht, "yes", "no"))
 
-peptydy <- peptydy %>% gather("method", "result", 2:4)
+peptydy <- peptydy %>% gather("method", "result", 2:4) 
+
+pep_order <- filter(peptydy, method == "database") %>% arrange(result) %>%  pull(peptide) %>% as.character
+
+peptydy[["peptide"]] <- factor(peptydy[["peptide"]], levels = pep_order)
 
 p <- ggplot(peptydy, aes(x = method, y = peptide, fill = result)) +
   geom_tile() +
@@ -60,5 +64,8 @@ p
 ## Results overview
 
 ```{r, echo=FALSE, message=FALSE,warning=FALSE}
-datatable(overview)
+datatable(overview, extensions = 'Buttons', 
+          filter = "top", rownames = FALSE, #style = "bootstrap",
+          options = list(dom = "Brtip",
+                         buttons = c("copy", "csv", "excel", "print")))
 ```
