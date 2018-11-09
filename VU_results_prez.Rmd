@@ -52,13 +52,13 @@ For checking amyloidogenicity we used Tht array.
 
 We diluted peptides in 100uL of 0.1M NaOH, gently mixed and neutralized pH to 7 using 50mM NaH2PO4.
 
-```{r, echo=FALSE,fig.height=50,fig.width=30,message=FALSE,warning=FALSE}
+```{r, echo=FALSE,message=FALSE,warning=FALSE}
 p
 ```
 
 
 ## Results overview
 
-```{r, echo=FALSE,fig.height=150,fig.width=30,message=FALSE,warning=FALSE}
+```{r, echo=FALSE, message=FALSE,warning=FALSE}
 datatable(overview)
 ```
