@@ -46,7 +46,7 @@ M <- ggplot(marlena, aes(x = method, y = peptide, fill = result)) +
   geom_tile() +
   geom_tile(aes(fill = result), color = "white") +
   # scale_fill_manual(values=c("red", "lightgreen")) +
-  scale_x_discrete(limits=c("AmyLoad","ThT","Vytautas", "Marlena")) +
+  scale_x_discrete(limits=c("AmyLoad","ThT", "Marlena", "Vytautas")) +
   theme_bw() +
   theme(text = element_text(size=9))
 
