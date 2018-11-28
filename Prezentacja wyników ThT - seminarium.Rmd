@@ -87,7 +87,7 @@ plot_10 <- ggplot(pep_10, aes(x = method, y = Peptyd, fill = result)) +
   theme(text = element_text(size=9))
 
 
-inner_join(pp, peptydy, by=c("peptides" = "peptide")) %>% 
+inner_join(pp2, peptydy, by=c("peptides" = "peptide")) %>% 
   group_by(peptides) %>% 
   mutate(norm_intensity = intensity / max(intensity)) %>% 
   filter(method == "AmyLoad") %>% 
