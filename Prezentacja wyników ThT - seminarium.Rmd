@@ -1,0 +1,296 @@
+---
+title: "Prezentacja wyników ThT - seminarium"
+output: 
+  ioslides_presentation: 
+    widescreen: yes
+widescreen: true
+---
+
+```{r, echo=FALSE,fig.height=150,fig.width=30,message=FALSE,warning=FALSE}
+library(dplyr)
+library(readODS)
+library(reshape2)
+library(ggplot2)
+library(ggbeeswarm)
+library(tidyverse)
+library(DT)
+
+peptydy <- read.csv("amyloid_heatmap.csv")
+peptydy <- peptydy[1:(nrow(peptydy)-1),]
+peptydy <- peptydy %>% mutate(match = ifelse(peptydy[["AmyLoad"]] == peptydy[["ThT"]], "yes", "no"))
+
+peptydy <- peptydy %>% gather("method", "result", 2:4)
+
+pep_order <- filter(peptydy, method == "AmyLoad") %>% arrange(result) %>%  pull(peptide) %>% as.character
+
+peptydy[["peptide"]] <- factor(peptydy[["peptide"]], levels = pep_order)
+
+p <- ggplot(peptydy, aes(x = method, y = peptide, fill = result)) +
+  geom_tile() +
+  geom_tile(aes(fill = result), color = "white") +
+  # scale_fill_manual(values=c("red", "lightgreen")) +
+  scale_x_discrete(limits=c("AmyLoad","ThT","match")) +
+  theme_bw() +
+  theme(text = element_text(size=9))
+
+
+overview <- read.csv("VU_peptides.csv")
+
+```
+
+
+## Overview
+
+Created: 2018-11-28.
+
+Parsed: `r Sys.Date()`.
+
+## Amyloidy
+
+<style>
+
+.column-left1{
+  float: left;
+  width: 45%;
+  text-align: left;
+}
+
+.column-right1{
+  float: right;
+  width: 45%;
+  text-align: right;
+}
+img {
+    width: auto;
+    height: auto;
+    object-fit: cover;
+}
+.fill {object-fit: fill;}
+.contain {object-fit: contain;}
+.cover {object-fit: cover;}
+.scale-down {object-fit: scale-down;}
+.none {object-fit: none;}
+</style>
+
+<div class="column-left1">
+- skupiska białek lub polipeptydów, które uległy nieprawidłowemu sfałdowaniu
+- zbudowane głównie ze struktur β
+- włókna amyloidowe są nierozpuszczalne i wysoce odporne na degradację
+- skłonność peptydu do tworzenia amyloidu zależy od kilku czynników, takich jak ładunek polipeptydowy, sekwencja, hydrofobowość i struktura wtórna
+</div>
+
+<div class="column-right1">
+<img class="cover" src="fig/amyloid_alzh.png" style="width:100%">
+</div>
+
+<!-- ## Alzheimer -->
+
+<!-- <img class="scale-down" src="fig/amyloid_alzh.png" style="width:95%" -->
+
+## Niektóre choroby powodowane przez amyloidy
+
+- Alzheimer
+- Parkinson
+- cukrzyca typu II
+- Creutzfeldta-Jakoba
+- Huntington
+- amyloidoza
+- katarakta
+
+## Functional amyloids
+
+- curli
+- pajęcze nici
+- ssacze melanosomy
+- tkankowy aktywator plazminogenu (tPA)
+
+## operon csgBAC i csgDEFG
+
+CsgA - major curli subunit                 
+CsgB - the nucleator of CsgA              
+CsgC - the inhibitor of curli system      
+CsgD - master regulator of biofilm growth 
+CsgE - periplasimic accessory protein     
+CsgF - accessory surface protein          
+CsgG - monomeric β-barrel pore 
+
+## operon csgBAC i csgDEFG
+
+<img class="cover" src="fig/operon.jpg" style="width:40%">
+
+## csgA
+
+
+
+## Aim 
+
+Amylogram - amyloid prediction software, was used opn peptide sequences deposited in amyloid databases.
+
+It found 24 peptides that had different annotation than prediction.
+
+## Methods
+
+For checking amyloidogenicity we used Tht array.
+
+We diluted peptides in 100uL of 0.1M NaOH, gently mixed and neutralized pH to 7 using 50mM NaH2PO4.
+
+## Wyniki
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
+p
+```
+
+
+<!-- ## Results overview -->
+
+<!-- ```{r, echo=FALSE, message=FALSE,warning=FALSE, fig.width=7, fig.height=7} -->
+<!-- datatable(overview, extensions = 'Buttons',  -->
+<!--           filter = "top", rownames = FALSE, #style = "bootstrap", -->
+<!--           options = list(dom = "Brtip", -->
+<!--                          buttons = c("copy", "csv", "excel", "print"))) -->
+<!-- ``` -->
+
+
+<!-- ## VS48: Pearson's correlation -->
+
+<!-- <style> -->
+<!-- .column-left{ -->
+<!--   float: left; -->
+<!--   width: 60%; -->
+<!--   text-align: left; -->
+<!-- } -->
+
+<!-- .column-right{ -->
+<!--   float: right; -->
+<!--   width: 20%; -->
+<!--   text-align: right; -->
+<!-- } -->
+<!-- </style> -->
+
+<!-- <div class="column-left"> -->
+<!-- ```{r} -->
+
+<!-- ``` -->
+<!-- </div> -->
+
+<!-- <div class="column-right"> -->
+<!-- ```{r} -->
+
+<!-- ``` -->
+<!-- </div> -->
+
+<!-- ## VS48: Spearman's correlation -->
+
+<!-- <div class="column-left"> -->
+<!-- ```{r} -->
+
+<!-- ``` -->
+<!-- </div> -->
+
+<!-- <div class="column-right"> -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+<!-- </div> -->
+
+
+
+<!-- ## CR (2017 and 2018) -->
+
+<!-- <style> -->
+<!-- .column-left1{ -->
+<!--   float: left; -->
+<!--   width: 45%; -->
+<!--   text-align: left; -->
+<!-- } -->
+
+<!-- .column-right1{ -->
+<!--   float: right; -->
+<!--   width: 45%; -->
+<!--   text-align: right; -->
+<!-- } -->
+<!-- </style> -->
+
+<!-- ## CR2018 -->
+
+<!-- <div class="column-left1"> -->
+<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CR2.jpg"> -->
+<!-- </div> -->
+
+<!-- <div class="column-right1"> -->
+<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CR3.jpg"> -->
+<!-- </div> -->
+
+
+<!-- ## Calcofluor 2017 and 2018 -->
+
+<!-- <div class="column-left1"> -->
+<!-- R2018. -->
+<!-- <br> -->
+<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CF1.jpg"> -->
+<!-- <br> -->
+<!-- Improper streaking - too dense colonies. -->
+<!-- </div> -->
+
+<!-- <div class="column-right1"> -->
+<!-- R2017 -->
+<!-- <br> -->
+<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/jule1.jpg"> -->
+<!-- </div> -->
+
+<!-- ## CF2018 -->
+
+<!-- <div class="column-left1"> -->
+<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CF2.jpg"> -->
+<!-- </div> -->
+
+<!-- <div class="column-right1"> -->
+<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CF3.jpg"> -->
+<!-- </div> -->
+
+
+<!-- ## VS24: Pearson's correlation - 4, column swap -->
+
+<!-- <style> -->
+<!-- .column-left{ -->
+<!--   float: left; -->
+<!--   width: 60%; -->
+<!--   text-align: left; -->
+<!-- } -->
+
+<!-- .column-right{ -->
+<!--   float: right; -->
+<!--   width: 20%; -->
+<!--   text-align: right; -->
+<!-- } -->
+<!-- </style> -->
+
+<!-- <div class="column-left"> -->
+<!-- ```{r} -->
+
+<!-- ``` -->
+<!-- </div> -->
+
+<!-- <div class="column-right"> -->
+<!-- ```{r} -->
+
+<!-- ``` -->
+<!-- </div> -->
+
+<!-- ## VS24: Spearman's correlation - 4, column swap -->
+
+<!-- <div class="column-left"> -->
+<!-- ```{r} -->
+
+<!-- ``` -->
+<!-- </div> -->
+
+<!-- <div class="column-right"> -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+<!-- </div> -->
+
+
