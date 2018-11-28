@@ -1,5 +1,5 @@
 ---
-title: "Prezentacja wyników ThT - seminarium"
+title: "Badania eksperymentalne wątpliwych amyloidów"
 output: 
   ioslides_presentation: 
     widescreen: yes
@@ -139,12 +139,13 @@ img {
 
 - włókna amyloidowe są nierozpuszczalne i wysoce odporne na degradację
 
-- skłonność peptydu do tworzenia amyloidu zależy od kilku czynników, takich jak ładunek
-polipeptydowy, sekwencja, hydrofobowość i struktura wtórna
+- skłonność peptydu do tworzenia amyloidu zależy od kilku czynników, takich jak sekwencja, hydrofobowość
 </div>
 
 <div class="column-right1">
 <img class="cover" src="fig/amyloid_alzh.png" style="width:100%">
+
+Złogi blokujące komunikację między komórkami w chorobie Alzheimera
 </div>
 
 <!-- ## Alzheimer -->
