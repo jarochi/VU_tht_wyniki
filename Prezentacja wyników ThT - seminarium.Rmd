@@ -81,9 +81,13 @@ img {
 
 <div class="column-left1">
 - skupiska białek lub polipeptydów, które uległy nieprawidłowemu sfałdowaniu
+
 - zbudowane głównie ze struktur β
+
 - włókna amyloidowe są nierozpuszczalne i wysoce odporne na degradację
-- skłonność peptydu do tworzenia amyloidu zależy od kilku czynników, takich jak ładunek polipeptydowy, sekwencja, hydrofobowość i struktura wtórna
+
+- skłonność peptydu do tworzenia amyloidu zależy od kilku czynników, takich jak ładunek
+polipeptydowy, sekwencja, hydrofobowość i struktura wtórna
 </div>
 
 <div class="column-right1">
@@ -97,49 +101,69 @@ img {
 ## Niektóre choroby powodowane przez amyloidy
 
 - Alzheimer
+
 - Parkinson
+
 - cukrzyca typu II
+
 - Creutzfeldta-Jakoba
+
 - Huntington
+
 - amyloidoza
+
 - katarakta
 
-## Functional amyloids
+## Amyloidy funkcjonalne
 
-- curli
+- występują w wielu systemach biologicznych
+
+- wykryte w bakteriach, grzybach, insektach oraz ssakach
+
+Funkcje:
+
+- biorą udział w tworzeniu biofilmów
+
+- dziedziczenie epigenetyczne
+
 - pajęcze nici
-- ssacze melanosomy
-- tkankowy aktywator plazminogenu (tPA)
+
+- produkcja melaniny
+
+- bakteriobójcze odpowiedzi immunologiczne
 
 ## operon csgBAC i csgDEFG
 
-CsgA - major curli subunit                 
-CsgB - the nucleator of CsgA              
-CsgC - the inhibitor of curli system      
-CsgD - master regulator of biofilm growth 
-CsgE - periplasimic accessory protein     
-CsgF - accessory surface protein          
-CsgG - monomeric β-barrel pore 
+CsgA - duża podjednostka curli
+
+CsgB - mała podjednostka curli, nukleator  
+
+CsgC - inhibitor csgA     
+
+CsgD - master regulator wzrostu biofilmów
+
+CsgE - peryplazmatyczne białko pomocnicze, kieruje csgA do poru  
+
+CsgF - abiałko pomocnicze ułatwiające csgB przyczepienie się do powierzchnii komórki
+
+CsgG - por przez, który na zewnątrz wydostają się csgA
 
 ## operon csgBAC i csgDEFG
 
 <img class="cover" src="fig/operon.jpg" style="width:40%">
 
-## csgA
-
-
 
 ## Aim 
 
-Amylogram - amyloid prediction software, was used opn peptide sequences deposited in amyloid databases.
+Amylogram - narzędzie przewidujące amyloidogenność, zostało wykorzystane do przeszukania sekwencji zdeponowanych w różnych amyloidowych bazach danych.
 
-It found 24 peptides that had different annotation than prediction.
+AmyloGram znalazł 24 peptydy, które różniły się przewidywaniem przez program oraz informacjami w bazach.
 
 ## Methods
 
-For checking amyloidogenicity we used Tht array.
+Do sprawdzenia właściwości amyloidogennych użyliśmy metody ThT.
 
-We diluted peptides in 100uL of 0.1M NaOH, gently mixed and neutralized pH to 7 using 50mM NaH2PO4.
+Peptydy rozpuściliśmy w 100uL of 0.1M NaOH, łagodnie wymieszaliśmy i zneutralizowaliśmy pH do 7 przy wykorzystaniu 50mM NaH2PO4.
 
 ## Wyniki
 
