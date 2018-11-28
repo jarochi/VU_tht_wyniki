@@ -56,7 +56,7 @@ pp <- pp %>% gather("day", "intensity", 2:16)
 
 pp$day <- pp$day %>% str_replace("X", "")
 
-pp1 <- pp %>% mutate(day = as.character(day), 
+pp1 <- pp %>% mutate( 
            day = sapply(strsplit(day, split = "_"), first),
            pow = sapply(strsplit(day, split = "_"), last))
 ```
@@ -148,6 +148,22 @@ Funkcje:
 
 - bakteriobójcze odpowiedzi immunologiczne
 
+## Curli
+
+- system curli jest podstawowym białkowym składnikiem strukturalnym biofilmów
+
+- curli to funkcjonalne nanowłókna amyloidalne 
+
+- curli posiada dwa niezależnie operony: csgBAC i csgDEFG
+
+- nanowłókna curli mają nieskomplikowaną konstrukcję
+funkcjonalne włókna amyloidalne są bardzo odporne na działanie wysokich temperatur i czynników denatujących
+- włókna amyloidalne mogą stanowić 10-40% całkowitej objętości biowłókien biofilmu
+
+- system curli wywodzi się z E. coli
+
+- system curli jest najlepiej przetestowanym systemem pozakomórkowych funkcjonalnych amyloidów
+
 ## operon csgBAC i csgDEFG
 
 CsgA - duża podjednostka curli
@@ -168,7 +184,7 @@ CsgG - por przez, który na zewnątrz wydostają się csgA
 
 <img class="cover" src="fig/operon.jpg" style="width:40%">
 
-## Aim 
+## Cel
 
 Amylogram - narzędzie przewidujące amyloidogenność, zostało wykorzystane do przeszukania sekwencji zdeponowanych w różnych amyloidowych bazach danych.
 
@@ -180,6 +196,18 @@ Do sprawdzenia właściwości amyloidogennych użyliśmy metody ThT.
 
 Peptydy rozpuściliśmy w 100uL of 0.1M NaOH, łagodnie wymieszaliśmy i zneutralizowaliśmy pH do 7 przy wykorzystaniu 50mM NaH2PO4.
 
+## ThT
+
+- ThT jest naładowany dodatnio
+
+- wiązania elektrostatyczne z ujemnie naładowymi resztami
+
+- rzadziej wiąże się do surface ridges β-kartek, oddziałując  z hydrofobowymi resztami
+
+- zmiana intensywności jest zależna od ilości miejsc wiążących ThT a nie stężenia włókien
+
+On the surface of a cross-β structure, amino acids form repetitive “surface ridges” of specific residues.
+
 ## Wyniki
 
 ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
@@ -190,4 +218,10 @@ p
 
 ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
 M
+```
+
+## Wyniki
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
+
 ```
