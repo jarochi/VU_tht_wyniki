@@ -34,7 +34,21 @@ p <- ggplot(peptydy, aes(x = method, y = peptide, fill = result)) +
   theme(text = element_text(size=9))
 
 
-overview <- read.csv("VU_peptides.csv")
+marlena <- read.csv("amyloid_heatmap_Marlena.csv")
+marlena <- marlena[1:(nrow(marlena)-1),]
+marlena <- marlena %>% gather("method", "result", 2:5)
+
+pep_order_m <- filter(marlena, method == "AmyLoad") %>% arrange(result) %>%  pull(peptide) %>% as.character
+
+marlena[["peptide"]] <- factor(marlena[["peptide"]], levels = pep_order_m)
+
+M <- ggplot(marlena, aes(x = method, y = peptide, fill = result)) +
+  geom_tile() +
+  geom_tile(aes(fill = result), color = "white") +
+  # scale_fill_manual(values=c("red", "lightgreen")) +
+  scale_x_discrete(limits=c("AmyLoad","ThT","Vytautas", "Marlena")) +
+  theme_bw() +
+  theme(text = element_text(size=9))
 
 
 pp <- read.csv("amyloid_repeats.csv")
@@ -161,7 +175,7 @@ Amylogram - narzędzie przewidujące amyloidogenność, zostało wykorzystane do
 
 AmyloGram znalazł 24 peptydy, które różniły się przewidywaniem przez program oraz informacjami w bazach.
 
-## Methods
+## Metody
 
 Do sprawdzenia właściwości amyloidogennych użyliśmy metody ThT.
 
@@ -173,157 +187,8 @@ Peptydy rozpuściliśmy w 100uL of 0.1M NaOH, łagodnie wymieszaliśmy i zneutra
 p
 ```
 
+## Wyniki
 
-<!-- ## Results overview -->
-
-<!-- ```{r, echo=FALSE, message=FALSE,warning=FALSE, fig.width=7, fig.height=7} -->
-<!-- datatable(overview, extensions = 'Buttons',  -->
-<!--           filter = "top", rownames = FALSE, #style = "bootstrap", -->
-<!--           options = list(dom = "Brtip", -->
-<!--                          buttons = c("copy", "csv", "excel", "print"))) -->
-<!-- ``` -->
-
-
-<!-- ## VS48: Pearson's correlation -->
-
-<!-- <style> -->
-<!-- .column-left{ -->
-<!--   float: left; -->
-<!--   width: 60%; -->
-<!--   text-align: left; -->
-<!-- } -->
-
-<!-- .column-right{ -->
-<!--   float: right; -->
-<!--   width: 20%; -->
-<!--   text-align: right; -->
-<!-- } -->
-<!-- </style> -->
-
-<!-- <div class="column-left"> -->
-<!-- ```{r} -->
-
-<!-- ``` -->
-<!-- </div> -->
-
-<!-- <div class="column-right"> -->
-<!-- ```{r} -->
-
-<!-- ``` -->
-<!-- </div> -->
-
-<!-- ## VS48: Spearman's correlation -->
-
-<!-- <div class="column-left"> -->
-<!-- ```{r} -->
-
-<!-- ``` -->
-<!-- </div> -->
-
-<!-- <div class="column-right"> -->
-
-<!-- ```{r} -->
-
-<!-- ``` -->
-<!-- </div> -->
-
-
-
-<!-- ## CR (2017 and 2018) -->
-
-<!-- <style> -->
-<!-- .column-left1{ -->
-<!--   float: left; -->
-<!--   width: 45%; -->
-<!--   text-align: left; -->
-<!-- } -->
-
-<!-- .column-right1{ -->
-<!--   float: right; -->
-<!--   width: 45%; -->
-<!--   text-align: right; -->
-<!-- } -->
-<!-- </style> -->
-
-<!-- ## CR2018 -->
-
-<!-- <div class="column-left1"> -->
-<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CR2.jpg"> -->
-<!-- </div> -->
-
-<!-- <div class="column-right1"> -->
-<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CR3.jpg"> -->
-<!-- </div> -->
-
-
-<!-- ## Calcofluor 2017 and 2018 -->
-
-<!-- <div class="column-left1"> -->
-<!-- R2018. -->
-<!-- <br> -->
-<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CF1.jpg"> -->
-<!-- <br> -->
-<!-- Improper streaking - too dense colonies. -->
-<!-- </div> -->
-
-<!-- <div class="column-right1"> -->
-<!-- R2017 -->
-<!-- <br> -->
-<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/jule1.jpg"> -->
-<!-- </div> -->
-
-<!-- ## CF2018 -->
-
-<!-- <div class="column-left1"> -->
-<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CF2.jpg"> -->
-<!-- </div> -->
-
-<!-- <div class="column-right1"> -->
-<!-- <img class="fit" src="data/CR_CF_plates_05-08-2018/CF3.jpg"> -->
-<!-- </div> -->
-
-
-<!-- ## VS24: Pearson's correlation - 4, column swap -->
-
-<!-- <style> -->
-<!-- .column-left{ -->
-<!--   float: left; -->
-<!--   width: 60%; -->
-<!--   text-align: left; -->
-<!-- } -->
-
-<!-- .column-right{ -->
-<!--   float: right; -->
-<!--   width: 20%; -->
-<!--   text-align: right; -->
-<!-- } -->
-<!-- </style> -->
-
-<!-- <div class="column-left"> -->
-<!-- ```{r} -->
-
-<!-- ``` -->
-<!-- </div> -->
-
-<!-- <div class="column-right"> -->
-<!-- ```{r} -->
-
-<!-- ``` -->
-<!-- </div> -->
-
-<!-- ## VS24: Spearman's correlation - 4, column swap -->
-
-<!-- <div class="column-left"> -->
-<!-- ```{r} -->
-
-<!-- ``` -->
-<!-- </div> -->
-
-<!-- <div class="column-right"> -->
-
-<!-- ```{r} -->
-
-<!-- ``` -->
-<!-- </div> -->
-
-
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
+M
+```
