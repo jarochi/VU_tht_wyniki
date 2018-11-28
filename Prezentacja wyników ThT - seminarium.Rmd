@@ -168,7 +168,6 @@ CsgG - por przez, który na zewnątrz wydostają się csgA
 
 <img class="cover" src="fig/operon.jpg" style="width:40%">
 
-
 ## Aim 
 
 Amylogram - narzędzie przewidujące amyloidogenność, zostało wykorzystane do przeszukania sekwencji zdeponowanych w różnych amyloidowych bazach danych.
