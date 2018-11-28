@@ -72,14 +72,13 @@ M_plot <- pp2 %>% ggplot(aes(x=peptides, y=intensity, fill=day)) +
   
 
 pep_10 <- read.csv("VU_10_peptides.csv")
-pep_10 <- pep_10[1:(nrow(pep_10)-1),]
 pep_10 <- pep_10 %>% gather("method", "result", 2:5)
 
 pep_order_10 <- filter(pep_10, method == "AmyLoad") %>% arrange(result) %>%  pull(Peptyd) %>% as.character
 
 pep_10[["Peptyd"]] <- factor(pep_10[["Peptyd"]], levels = pep_order_10)
 
-plot_10 <- ggplot(marlena, aes(x = method, y = Peptyd, fill = result)) +
+plot_10 <- ggplot(pep_10, aes(x = method, y = Peptyd, fill = result)) +
   geom_tile() +
   geom_tile(aes(fill = result), color = "white") +
   # scale_fill_manual(values=c("red", "lightgreen")) +
@@ -87,6 +86,16 @@ plot_10 <- ggplot(marlena, aes(x = method, y = Peptyd, fill = result)) +
   theme_bw() +
   theme(text = element_text(size=9))
 
+
+inner_join(pp, peptydy, by=c("peptides" = "peptide")) %>% 
+  group_by(peptides) %>% 
+  mutate(norm_intensity = intensity / max(intensity)) %>% 
+  filter(method == "AmyLoad") %>% 
+  ggplot(aes(x=peptides, y=norm_intensity, fill=day)) +
+  geom_col(position = "dodge") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  
 ```
 
 
@@ -265,6 +274,12 @@ Peptydy rozpuściliśmy w 100uL of 0.1M NaOH, łagodnie wymieszaliśmy i zneutra
 - zmiana intensywności jest zależna od ilości miejsc wiążących ThT a nie stężenia włókien
 
 On the surface of a cross-β structure, amino acids form repetitive “surface ridges” of specific residues.
+
+## Wyniki
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
+plot_10
+```
 
 ## Wyniki
 
