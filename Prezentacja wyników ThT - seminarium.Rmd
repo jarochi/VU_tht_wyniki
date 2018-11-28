@@ -36,8 +36,8 @@ p <- ggplot(peptydy, aes(x = method, y = peptide, fill = result)) +
 
 
 marlena <- read.csv("amyloid_heatmap_Marlena.csv")
-marlena <- marlena[1:(nrow(marlena)-1),]
-marlena <- marlena %>% gather("method", "result", 2:5)
+marlena <- marlena[1:(nrow(marlena)-1),] %>% 
+  gather("method", "result", 2:5)
 
 pep_order_m <- filter(marlena, method == "AmyLoad") %>% arrange(result) %>%  pull(peptide) %>% as.character
 
@@ -64,7 +64,10 @@ pp_aggr <- group_by(pp, peptides,  day) %>%
 ggplot(pp, aes(x = day, y = intensity, color = rep)) +
   geom_point() +
   facet_wrap(~ peptides, scales = "free_y") +
-  theme_bw() 
+  theme_bw() +
+  xlab("Dzień") +
+  ylab("Intensywność") +
+  scale_fill_manual(name = "Powtórzenie")
 
   
 M_plot <- pp2 %>% ggplot(aes(x=peptides, y=intensity, fill=day)) +
