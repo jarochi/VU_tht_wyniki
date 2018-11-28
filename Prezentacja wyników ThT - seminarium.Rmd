@@ -61,19 +61,20 @@ pp_aggr <- group_by(pp, peptides,  day) %>%
   summarise(intensity = median(intensity))
 
 
-ggplot(pp, aes(x = day, y = intensity, color = rep)) +
+M_plot <- ggplot(pp, aes(x = day, y = intensity, color = rep)) +
   geom_point() +
   facet_wrap(~ peptides, scales = "free_y") +
   theme_bw() +
   xlab("Dzień") +
   ylab("Intensywność") +
-  scale_fill_manual(name = "Powtórzenie")
+  scale_fill_manual(name = "Powtórzenie") +
+  theme(text = element_text(size=4))
 
   
-M_plot <- pp2 %>% ggplot(aes(x=peptides, y=intensity, fill=day)) +
-  geom_col(position = "dodge") +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+# M_plot <- pp2 %>% ggplot(aes(x=peptides, y=intensity, fill=day)) +
+#   geom_col(position = "dodge") +
+#   theme_bw() +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 1))
   
 
 pep_10 <- read.csv("VU_10_peptides.csv")
@@ -89,10 +90,10 @@ plot_10 <- ggplot(pep_10, aes(x = method, y = Peptyd, fill = result)) +
   # scale_fill_manual(values=c("red", "lightgreen")) +
   scale_x_discrete(limits=c("AmyLoad","Marlena", "Vytautas")) +
   theme_bw() +
-  theme(text = element_text(size=9))
+  theme(text = element_text(size=5))
 
 
-inner_join(pp_aggr, peptydy, by=c("peptides" = "peptide")) %>% 
+intensity_plot <- inner_join(pp_aggr, peptydy, by=c("peptides" = "peptide")) %>% 
   filter(method %in% c("AmyLoad", "ThT")) %>% 
   dcast(peptides + day + intensity~ method) %>% 
   group_by(peptides) %>% 
@@ -100,8 +101,9 @@ inner_join(pp_aggr, peptydy, by=c("peptides" = "peptide")) %>%
   ggplot(aes(x=peptides, y=norm_intensity, fill=day)) +
   geom_col(position = "dodge") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  facet_wrap(~ AmyLoad + ThT, scales = "free", labeller = label_both)
+  facet_wrap(~ AmyLoad + ThT, scales = "free", labeller = label_both) +
+  theme(text = element_text(size=4)) +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3))
   
 ```
 
@@ -140,7 +142,7 @@ img {
 </style>
 
 <div class="column-left1">
-- skupiska białek lub polipeptydów, które uległy nieprawidłowemu sfałdowaniu
+- skupiska białek lub peptydów, które uległy nieprawidłowemu sfałdowaniu
 
 - zbudowane głównie ze struktur β
 
@@ -183,38 +185,27 @@ Agregaty amyloidowe blokujące komunikację między komórkami w chorobie Alzhei
 
 Funkcje:
 
-- strukturalne
-
 - przekazywanie sygnałów
 
-- mikrobiologiczne
+- antytmikrobiologiczne
 
+- strukturalne
 
-- biorą udział w tworzeniu biofilmów
-
-- dziedziczenie epigenetyczne
-
-- pajęcze nici
-
-- produkcja melaniny
-
-- bakteriobójcze odpowiedzi immunologiczne
 
 ## Curli
 
 - system curli występuje w bakteriach z rodziny Enterobacteriace
 
-- system curli jest podstawowym białkowym składnikiem strukturalnym biofilmów
+- system curli jest najlepiej poznanym systemem pozakomórkowych funkcjonalnych amyloidów
 
-- curli to funkcjonalne nanowłókna amyloidalne 
+- curli jest podstawowym białkowym składnikiem strukturalnym biofilmów
 
-- curli posiada dwa niezależnie operony: csgBAC i csgDEFG
+- curli to funkcjonalne nanowłókna amyloidowe
 
-- nanowłókna curli mają nieskomplikowaną konstrukcję funkcjonalne włókna amyloidalne są bardzo odporne na działanie wysokich temperatur i czynników denatujących
+- system curli składa się z dwóch niezależnych operonów: csgBAC i csgDEFG
 
-- włókna amyloidalne mogą stanowić 10-40% całkowitej objętości biowłókien biofilmu
+- włókna mogą stanowić 10-40% całkowitej objętości biowłókien biofilmu
 
-- system curli jest najlepiej przetestowanym systemem pozakomórkowych funkcjonalnych amyloidów
 
 ## operon csgBAC i csgDEFG
 <style>
@@ -251,34 +242,44 @@ CsgC - inhibitor csgA
 
 CsgD - master regulator wzrostu biofilmów
 
-CsgE - peryplazmatyczne białko pomocnicze, kieruje csgA do poru  
+CsgE - peryplazmatyczne białko pomocnicze, kieruje do csgG 
 
-CsgF - abiałko pomocnicze ułatwiające csgB przyczepienie się do powierzchnii komórki
+CsgF - białko pomocnicze ułatwiające csgB adhezję do powierzchnii komórki
 
-CsgG - por przez, który na zewnątrz wydostają się csgA
+CsgG - białko transportujące csgA na zewnątrz komórki
 </div>
 
 <div class="column-left1">
-<img class="cover" src="fig/operon.jpg" style="width:90%">
+<img class="cover" src="fig/operon.jpg" style="width:85%">
 </div>
 
 <!-- ## operon csgBAC i csgDEFG -->
 
 <!-- <img class="cover" src="fig/operon.jpg" style="width:40%"> -->
 
-## Cel
+## Cel badań
 
-Walidacja peptydów przewidzianych przez AmyloGram jako fałszywe pozytywne oraz pozytywne fałszywe.
+Celem pracy jest poznanie motywów odpowiedzialnych za agregację białka csgA.
 
-Amylogram - narzędzie przewidujące amyloidogenność, zostało wykorzystane do przeszukania sekwencji zdeponowanych w różnych amyloidowych bazach danych.
+Badania przeprowadzane są na peptydach celem wytrenowania algorytmu przewidującego amyloidogenność oraz ze względu na wysokie koszty produkcji całego białka.
 
-AmyloGram znalazł 24 peptydy, które różniły się przewidywaniem przez program oraz informacjami w bazach.
+Różne warianty białka csgA do późniejszych badań będą produkowane przez zespół prof. Schieracka.
+
+## Cel pracy
+
+Sprawdzenie poprawności predykcji poprzez analizę sekwencji zdeponowanych w bazie AmyLoad.
+
+Wybrane zostały 24 peptydy, które miały najniższy wynik. 13 pozytywnych oraz 11 negatywnych.
+
+Badania mają na celu kalibrację algorytmu AmyloGramu.
 
 ## Metody
 
 Do sprawdzenia właściwości amyloidogennych użyliśmy metody ThT.
 
-Peptydy rozpuściliśmy w 100uL of 0.1M NaOH, łagodnie wymieszaliśmy i zneutralizowaliśmy pH do 7 przy wykorzystaniu 50mM NaH2PO4.
+W późniejszych etapach użyty zostanie FTIR oraz AFM.
+
+Peptydy podczas syntezy de novo mogły zagregować. Do zaburzenia struktury III-rzędowej powszechnie stosowany jest NaOH.
 
 ## ThT
 
@@ -286,16 +287,68 @@ Peptydy rozpuściliśmy w 100uL of 0.1M NaOH, łagodnie wymieszaliśmy i zneutra
 
 - wiązania elektrostatyczne z ujemnie naładowymi resztami
 
-- rzadziej wiąże się do surface ridges β-kartek, oddziałując  z hydrofobowymi resztami
-
 - zmiana intensywności jest zależna od ilości miejsc wiążących ThT a nie stężenia włókien
 
-On the surface of a cross-β structure, amino acids form repetitive “surface ridges” of specific residues.
+## FTIR
 
-## Wyniki
+<img class="cover" src="fig/ftir.png" style="width:80%">
+
+## FTIR derywatywy
+
+<img class="cover" src="fig/ftir_der.png" style="width:80%">
+
+## AFM
+
+<style>
+
+.column-left1{
+  float: left;
+  width: 48%;
+  text-align: left;
+}
+
+.column-right1{
+  float: right;
+  width: 48%;
+  text-align: right;
+}
+img {
+    width: auto;
+    height: auto;
+    object-fit: cover;
+}
+.fill {object-fit: fill;}
+.contain {object-fit: contain;}
+.cover {object-fit: cover;}
+.scale-down {object-fit: scale-down;}
+.none {object-fit: none;}
+</style>
+
+<div class="column-left1">
+<img class="cover" src="fig/afm1.jpg" style="width:100%">
+</div>
+
+<div class="column-right1">
+<img class="cover" src="fig/afm2.jpg" style="width:100%">
+
+</div>
+
+## Wyniki wzorcowych peptydów
 
 ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
 plot_10
+```
+
+## Wartość intensywności dla każdego peptydu 
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
+M_plot
+```
+
+## Intensywność po normalizacji
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=3}
+intensity_plot
 ```
 
 ## Wyniki
@@ -308,12 +361,6 @@ p
 
 ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
 M
-```
-
-## Wyniki
-
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
-M_plot
 ```
 
 ## Podsumowanie
