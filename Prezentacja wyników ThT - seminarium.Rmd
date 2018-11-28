@@ -165,7 +165,32 @@ funkcjonalne włókna amyloidalne są bardzo odporne na działanie wysokich temp
 - system curli jest najlepiej przetestowanym systemem pozakomórkowych funkcjonalnych amyloidów
 
 ## operon csgBAC i csgDEFG
+<style>
 
+.column-left1{
+  float: left;
+  width: 40%;
+  text-align: left;
+}
+
+.column-right1{
+  float: right;
+  width: 60%;
+  text-align: right;
+}
+img {
+    width: auto;
+    height: auto;
+    object-fit: cover;
+}
+.fill {object-fit: fill;}
+.contain {object-fit: contain;}
+.cover {object-fit: cover;}
+.scale-down {object-fit: scale-down;}
+.none {object-fit: none;}
+</style>
+
+<div class="column-right1">
 CsgA - duża podjednostka curli
 
 CsgB - mała podjednostka curli, nukleator  
@@ -179,10 +204,15 @@ CsgE - peryplazmatyczne białko pomocnicze, kieruje csgA do poru
 CsgF - abiałko pomocnicze ułatwiające csgB przyczepienie się do powierzchnii komórki
 
 CsgG - por przez, który na zewnątrz wydostają się csgA
+</div>
 
-## operon csgBAC i csgDEFG
+<div class="column-left1">
+<img class="cover" src="fig/operon.jpg" style="width:90%">
+</div>
 
-<img class="cover" src="fig/operon.jpg" style="width:40%">
+<!-- ## operon csgBAC i csgDEFG -->
+
+<!-- <img class="cover" src="fig/operon.jpg" style="width:40%"> -->
 
 ## Cel
 
