@@ -14,6 +14,7 @@ library(ggplot2)
 library(ggbeeswarm)
 library(tidyverse)
 library(DT)
+library(reshape2)
 
 peptydy <- read.csv("amyloid_heatmap.csv")
 peptydy <- peptydy[1:(nrow(peptydy)-1),]
@@ -51,19 +52,20 @@ M <- ggplot(marlena, aes(x = method, y = peptide, fill = result)) +
   theme(text = element_text(size=9))
 
 
-pp <- read.csv("amyloid_repeats.csv")
-pp <- pp %>% gather("day", "intensity", 2:16)
+pp <- read.csv("amyloid_repeats.csv") %>% gather("day_rep", "intensity", 2:16) %>% 
+  mutate(day = sapply(strsplit(day_rep, split = "_"), first),
+         rep = sapply(strsplit(day_rep, split = "_"), last),
+         day = gsub(pattern = "X", replacement = "", x = day)) 
 
-pp$day <- pp$day %>% str_replace("X", "")
-
-pp1 <- pp %>% mutate(
-           day = sapply(strsplit(day, split = "_"), first),
-           pow = sapply(strsplit(day, split = "_"), last),
-           pow2 = rep(1:3, each=25, times=5))
-
-pp2 <- pp1 %>% group_by(peptides, day, pow2) %>% 
-    summarise(intensity = median(intensity)) %>%
+pp_aggr <- group_by(pp, peptides,  day) %>% 
   summarise(intensity = median(intensity))
+
+
+ggplot(pp, aes(x = day, y = intensity, color = rep)) +
+  geom_point() +
+  facet_wrap(~ peptides, scales = "free_y") +
+  theme_bw() 
+
   
 M_plot <- pp2 %>% ggplot(aes(x=peptides, y=intensity, fill=day)) +
   geom_col(position = "dodge") +
@@ -87,14 +89,16 @@ plot_10 <- ggplot(pep_10, aes(x = method, y = Peptyd, fill = result)) +
   theme(text = element_text(size=9))
 
 
-inner_join(pp2, peptydy, by=c("peptides" = "peptide")) %>% 
+inner_join(pp_aggr, peptydy, by=c("peptides" = "peptide")) %>% 
+  filter(method %in% c("AmyLoad", "ThT")) %>% 
+  dcast(peptides + day + intensity~ method) %>% 
   group_by(peptides) %>% 
   mutate(norm_intensity = intensity / max(intensity)) %>% 
-  filter(method == "AmyLoad") %>% 
   ggplot(aes(x=peptides, y=norm_intensity, fill=day)) +
   geom_col(position = "dodge") +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  facet_wrap(~ AmyLoad + ThT, scales = "free", labeller = label_both)
   
 ```
 
