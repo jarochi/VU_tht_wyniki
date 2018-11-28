@@ -143,30 +143,30 @@ img {
 
 - włókna amyloidowe są nierozpuszczalne i wysoce odporne na degradację
 
-- skłonność peptydu do tworzenia amyloidu zależy od kilku czynników, takich jak sekwencja, hydrofobowość
+- skłonność peptydu do tworzenia amyloidu zależy od kilku czynników, takich jak sekwencja czy hydrofobowość
 </div>
 
 <div class="column-right1">
 <img class="cover" src="fig/amyloid_alzh.png" style="width:100%">
 
-Złogi blokujące komunikację między komórkami w chorobie Alzheimera
+Agregaty amyloidowe blokujące komunikację między komórkami w chorobie Alzheimera
 </div>
 
 <!-- ## Alzheimer -->
 
 <!-- <img class="scale-down" src="fig/amyloid_alzh.png" style="width:95%" -->
 
-## Niektóre choroby powodowane przez amyloidy
+## Niektóre choroby wywołane przez niefunkcjonalne amyloidy
 
-- Alzheimer
+- choroba Alzheimera
 
-- Parkinson
+- choroba Parkinsona
 
 - cukrzyca typu II
 
-- Creutzfeldta-Jakoba
+- choroba Creutzfeldta-Jakoba
 
-- Huntington
+- choroba Huntingtona
 
 - amyloidoza
 
@@ -180,6 +180,13 @@ Złogi blokujące komunikację między komórkami w chorobie Alzheimera
 
 Funkcje:
 
+- strukturalne
+
+- przekazywanie sygnałów
+
+- mikrobiologiczne
+
+
 - biorą udział w tworzeniu biofilmów
 
 - dziedziczenie epigenetyczne
@@ -192,17 +199,17 @@ Funkcje:
 
 ## Curli
 
+- system curli występuje w bakteriach z rodziny Enterobacteriace
+
 - system curli jest podstawowym białkowym składnikiem strukturalnym biofilmów
 
 - curli to funkcjonalne nanowłókna amyloidalne 
 
 - curli posiada dwa niezależnie operony: csgBAC i csgDEFG
 
-- nanowłókna curli mają nieskomplikowaną konstrukcję
-funkcjonalne włókna amyloidalne są bardzo odporne na działanie wysokich temperatur i czynników denatujących
-- włókna amyloidalne mogą stanowić 10-40% całkowitej objętości biowłókien biofilmu
+- nanowłókna curli mają nieskomplikowaną konstrukcję funkcjonalne włókna amyloidalne są bardzo odporne na działanie wysokich temperatur i czynników denatujących
 
-- system curli wywodzi się z E. coli
+- włókna amyloidalne mogą stanowić 10-40% całkowitej objętości biowłókien biofilmu
 
 - system curli jest najlepiej przetestowanym systemem pozakomórkowych funkcjonalnych amyloidów
 
@@ -257,6 +264,8 @@ CsgG - por przez, który na zewnątrz wydostają się csgA
 <!-- <img class="cover" src="fig/operon.jpg" style="width:40%"> -->
 
 ## Cel
+
+Walidacja peptydów przewidzianych przez AmyloGram jako fałszywe pozytywne oraz pozytywne fałszywe.
 
 Amylogram - narzędzie przewidujące amyloidogenność, zostało wykorzystane do przeszukania sekwencji zdeponowanych w różnych amyloidowych bazach danych.
 
