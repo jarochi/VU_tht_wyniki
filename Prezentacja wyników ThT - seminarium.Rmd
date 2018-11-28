@@ -40,6 +40,8 @@ overview <- read.csv("VU_peptides.csv")
 pp <- read.csv("amyloid_repeats.csv")
 pp <- pp %>% gather("day", "intensity", 2:16)
 
+pp$day <- pp$day %>% str_replace("X", "")
+
 pp1 <- pp %>% mutate(day = as.character(day), 
            day = sapply(strsplit(day, split = "_"), first),
            pow = sapply(strsplit(day, split = "_"), last))
