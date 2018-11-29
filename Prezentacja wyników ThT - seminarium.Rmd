@@ -60,15 +60,31 @@ peptydy_intensity <- read.csv("amyloid_repeats.csv") %>% gather("day_rep", "inte
 peptydy_intensity_aggr <- group_by(peptydy_intensity, peptides,  day) %>% 
   summarise(intensity = median(intensity))
 
-
-peptydy_intensity_plot <- ggplot(peptydy_intensity, aes(x = day, y = intensity, color = rep)) +
+peptydy_intensity_plot_amyloid <- inner_join(peptydy_intensity, peptydy, by=c("peptides" = "peptide")) %>% 
+  filter(method == "AmyLoad") %>% 
+  filter(result == "yes") %>% 
+  ggplot(aes(x = day, y = intensity, color = rep)) +
   geom_point() +
   facet_wrap(~ peptides, scales = "free_y") +
   theme_bw() +
   xlab("Dzień") +
   ylab("Intensywność") +
   scale_fill_manual(name = "Powtórzenie") +
-  theme(text = element_text(size=4))
+  theme(text = element_text(size=4),
+        strip.text.x = element_text(margin = margin(0, 0, 0, 0, "cm")))
+
+peptydy_intensity_plot_nonamyloid <- inner_join(peptydy_intensity, peptydy, by=c("peptides" = "peptide")) %>% 
+  filter(method == "AmyLoad") %>% 
+  filter(result == "no") %>% 
+  ggplot(aes(x = day, y = intensity, color = rep)) +
+  geom_point() +
+  facet_wrap(~ peptides, scales = "free_y") +
+  theme_bw() +
+  xlab("Dzień") +
+  ylab("Intensywność") +
+  scale_fill_manual(name = "Powtórzenie") +
+  theme(text = element_text(size=4),
+        strip.text.x = element_text(margin = margin(0, 0, 0, 0, "cm")))
 
   
 # M_plot <- pp2 %>% ggplot(aes(x=peptides, y=intensity, fill=day)) +
@@ -94,7 +110,8 @@ plot_wzorzec <- ggplot(wzorzec, aes(x = method, y = Peptyd, fill = result)) +
 
 
 intensity_plot <- inner_join(peptydy_intensity_aggr, peptydy, by=c("peptides" = "peptide")) %>% 
-  filter(method %in% c("AmyLoad", "ThT")) %>% 
+  filter(method %in% c("AmyLoad", "ThT")) %>%
+  mutate(result = ifelse(result == "yes", "amyloid", "non-amyloid")) %>% 
   dcast(peptides + day + intensity~ method) %>% 
   group_by(peptides) %>% 
   mutate(norm_intensity = intensity / max(intensity)) %>% 
@@ -103,7 +120,8 @@ intensity_plot <- inner_join(peptydy_intensity_aggr, peptydy, by=c("peptides" = 
   theme_bw() +
   facet_wrap(~ AmyLoad + ThT, scales = "free", labeller = label_both) +
   theme(text = element_text(size=4)) +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3))
+  theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3),
+        strip.text.x = element_text(margin = margin(0, 0, 0, 0, "cm")))
   
 ```
 
@@ -391,11 +409,18 @@ plot_wzorzec +
   ylab("Peptyd")
 ```
 
-## Intensywnośc dla każdego peptydu 
+## Intensywnośc peptydow amyloidowych
 
 ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
-peptydy_intensity_plot
+peptydy_intensity_plot_amyloid
 ```
+
+## Intensywnośc peptydow nieamyloidowych
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
+peptydy_intensity_plot_nonamyloid
+```
+
 
 ## Intensywność po normalizacji
 
