@@ -52,7 +52,7 @@ peptydy_intensity_casted <- inner_join(peptydy_intensity, peptydy, by=c("peptide
   dcast(peptides + day + intensity~ method) %>% 
   mutate(both = paste0(AmyLoad, ThT)) 
 
-plot_intensities <- function(dat)
+plot_intensities <- function(dat){
   ggplot(dat, aes(x = day, y = intensity)) +
   geom_point() +
   geom_hline(yintercept = ThT_median, color = "red") +
@@ -62,9 +62,11 @@ plot_intensities <- function(dat)
   ylab("Fluorescencja (ThT)") +
   theme(strip.text.x = element_text(margin = margin(0, 0, 0, 0, "cm"))) +
   ggtitle(paste0("AmyLoad: ", dat[["AmyLoad"]][1], "; ThT: ", dat[["ThT"]][1]))
+  }
 
 intensities_plots <- lapply(split(peptydy_intensity_casted, peptydy_intensity_casted[["both"]]), plot_intensities)
 
 library(patchwork)
 
 (intensities_plots[[1]] + intensities_plots[[2]])/(intensities_plots[[3]] + intensities_plots[[4]])
+
