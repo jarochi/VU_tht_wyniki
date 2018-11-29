@@ -169,11 +169,11 @@ intensity_plot_lines <- (intensities_plots_uniform[[1]] +  intensities_plots_uni
 ```
 
 
-## Overview
+<!-- ## Overview
 
 Created: 2018-11-28.
 
-Parsed: `r Sys.Date()`.
+Parsed: `r Sys.Date()`.-->
 
 <!-- ## Amyloidy -->
 
@@ -415,41 +415,6 @@ Peptydy podczas syntezy de novo mogły zagregować. Do zaburzenia struktury III-
 
 <!-- </div> -->
 
-<!-- ## AFM -->
-
-<!-- <style> -->
-
-<!-- .column-left1{ -->
-<!--   float: left; -->
-<!--   width: 48%; -->
-<!--   text-align: left; -->
-<!-- } -->
-
-<!-- .column-right1{ -->
-<!--   float: right; -->
-<!--   width: 48%; -->
-<!--   text-align: right; -->
-<!-- } -->
-<!-- img { -->
-<!--     width: auto; -->
-<!--     height: auto; -->
-<!--     object-fit: cover; -->
-<!-- } -->
-<!-- .fill {object-fit: fill;} -->
-<!-- .contain {object-fit: contain;} -->
-<!-- .cover {object-fit: cover;} -->
-<!-- .scale-down {object-fit: scale-down;} -->
-<!-- .none {object-fit: none;} -->
-<!-- </style> -->
-
-<!-- <div class="column-left1"> -->
-<!-- <img class="cover" src="fig/afm1.jpg" style="width:100%"> -->
-<!-- </div> -->
-
-<!-- <div class="column-right1"> -->
-<!-- <img class="cover" src="fig/afm2.jpg" style="width:100%"> -->
-
-<!-- </div> -->
 
 ## Peptydy wzorcowe
 
@@ -502,9 +467,25 @@ peptydy_plot +
 <!--   ylab("Peptyd") -->
 <!-- ``` -->
 
-## Dalsze działania
+## Dalsze prace
 
 Peptydy, które według bazy AmyLoad są nieamyloidogenne, a dały pozytywny wynik w kontakcie z ThT zostaną przebadane na AFM.
 
 W późniejszych etapach badania będą prowadzone nad całymi białkami csgA. Obecnie opracowywany jest wydajny protokół izolacji i oczyszczenia.
 
+## AFM
+
+<div style="float: left; width: 50%;">
+<img class="cover" src="fig/afm1.jpg" style="width:100%">
+
+</div>
+<div style="float: right; width: 50%;">
+<img class="cover" src="fig/afm2.jpg" style="width:100%">
+
+</div>
+
+
+## Dalsze prace
+
+Przedział ufności dla predykcji (Quantifying Uncertainty in Random Forests via Confidence
+Intervals and Hypothesis Tests)
