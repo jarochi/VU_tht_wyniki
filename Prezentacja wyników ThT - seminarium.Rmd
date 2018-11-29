@@ -26,7 +26,7 @@ pep_order <- filter(peptydy, method == "AmyLoad") %>% arrange(result) %>%  pull(
 
 peptydy[["peptide"]] <- factor(peptydy[["peptide"]], levels = pep_order)
 
-p <- ggplot(peptydy, aes(x = method, y = peptide, fill = result)) +
+peptydy_plot <- ggplot(peptydy, aes(x = method, y = peptide, fill = result)) +
   geom_tile() +
   geom_tile(aes(fill = result), color = "white") +
   # scale_fill_manual(values=c("red", "lightgreen")) +
@@ -43,7 +43,7 @@ pep_order_m <- filter(marlena, method == "AmyLoad") %>% arrange(result) %>%  pul
 
 marlena[["peptide"]] <- factor(marlena[["peptide"]], levels = pep_order_m)
 
-M <- ggplot(marlena, aes(x = method, y = peptide, fill = result)) +
+marlena_plot <- ggplot(marlena, aes(x = method, y = peptide, fill = result)) +
   geom_tile() +
   geom_tile(aes(fill = result), color = "white") +
   # scale_fill_manual(values=c("red", "lightgreen")) +
@@ -52,16 +52,16 @@ M <- ggplot(marlena, aes(x = method, y = peptide, fill = result)) +
   theme(text = element_text(size=9))
 
 
-pp <- read.csv("amyloid_repeats.csv") %>% gather("day_rep", "intensity", 2:16) %>% 
+peptydy_intensity <- read.csv("amyloid_repeats.csv") %>% gather("day_rep", "intensity", 2:16) %>% 
   mutate(day = sapply(strsplit(day_rep, split = "_"), first),
          rep = sapply(strsplit(day_rep, split = "_"), last),
          day = gsub(pattern = "X", replacement = "", x = day)) 
 
-pp_aggr <- group_by(pp, peptides,  day) %>% 
+peptydy_intensity_aggr <- group_by(peptydy_intensity, peptides,  day) %>% 
   summarise(intensity = median(intensity))
 
 
-M_plot <- ggplot(pp, aes(x = day, y = intensity, color = rep)) +
+peptydy_intensity_plot <- ggplot(peptydy_intensity, aes(x = day, y = intensity, color = rep)) +
   geom_point() +
   facet_wrap(~ peptides, scales = "free_y") +
   theme_bw() +
@@ -394,7 +394,7 @@ plot_wzorzec +
 ## Intensywnośc dla każdego peptydu 
 
 ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
-M_plot
+peptydy_intensity_plot
 ```
 
 ## Intensywność po normalizacji
@@ -408,7 +408,7 @@ intensity_plot +
 ## Wyniki barwienia ThT
 
 ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
-p +
+peptydy_plot +
   xlab("Pochodzenie adnotacji") +
   ylab("Peptyd")
 ```
@@ -416,7 +416,7 @@ p +
 ## Porównanie wyników
 
 ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
-M +
+marlena_plot +
   xlab("Pochodzenie adnotacji") +
   ylab("Peptyd")
 ```
