@@ -157,12 +157,13 @@ plot_intensities <- function(dat, ymax = NULL){
 
 intensities_plots <- lapply(split(peptydy_intensity_casted, peptydy_intensity_casted[["both"]]), 
                             plot_intensities)
+
 intensities_plots_uniform <- lapply(split(peptydy_intensity_casted, peptydy_intensity_casted[["both"]]), 
                                     plot_intensities, ymax = max(peptydy_intensity_casted[["intensity"]]))
 library(patchwork)
 
 
-intensity_plot_lines <- (intensities_plots_uniform[[1]] + intensities_plots_uniform[[2]])/(intensities_plots_uniform[[3]] + intensities_plots_uniform[[4]])
+intensity_plot_lines <- (intensities_plots_uniform[[1]] +  intensities_plots_uniform[[2]])/(intensities_plots_uniform[[3]] + intensities_plots_uniform[[4]])
 
   
 ```
