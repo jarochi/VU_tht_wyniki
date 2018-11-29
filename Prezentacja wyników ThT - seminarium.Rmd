@@ -32,7 +32,7 @@ peptydy_plot <- ggplot(peptydy, aes(x = method, y = peptide, fill = result)) +
   # scale_fill_manual(values=c("red", "lightgreen")) +
   scale_x_discrete(limits=c("AmyLoad","ThT","match")) +
   theme_bw() +
-  theme(text = element_text(size=9))
+  theme(text = element_text(size=15))
 
 
 marlena <- read.csv("amyloid_heatmap_Marlena.csv")
@@ -106,7 +106,7 @@ plot_wzorzec <- ggplot(wzorzec, aes(x = method, y = Peptyd, fill = result)) +
   # scale_fill_manual(values=c("red", "lightgreen")) +
   scale_x_discrete(limits=c("AmyLoad","Marlena", "Vytautas")) +
   theme_bw() +
-  theme(text = element_text(size=5))
+  theme(text = element_text(size=15))
 
 
 intensity_plot <- inner_join(peptydy_intensity_aggr, peptydy, by=c("peptides" = "peptide")) %>% 
@@ -122,6 +122,48 @@ intensity_plot <- inner_join(peptydy_intensity_aggr, peptydy, by=c("peptides" = 
   theme(text = element_text(size=4)) +
   theme(axis.text.x = element_text(angle = 90, hjust = 1, size = 3),
         strip.text.x = element_text(margin = margin(0, 0, 0, 0, "cm")))
+
+
+
+ThT_median <- filter(peptydy_intensity, peptides == "THT") %>% 
+  pull(intensity) %>% 
+  median
+
+
+#peptydy_intensity_plot <- 
+peptydy_intensity_casted <- inner_join(peptydy_intensity, peptydy, by=c("peptides" = "peptide")) %>% 
+  filter(method %in% c("AmyLoad", "ThT")) %>%
+  dcast(peptides + day + intensity~ method) %>% 
+  mutate(both = paste0(AmyLoad, ThT)) 
+
+
+plot_intensities <- function(dat, ymax = NULL){
+  ggplot(dat, aes(x = day, y = intensity)) +
+  geom_hline(yintercept = ThT_median, color = "red") +
+  geom_rect(ymin = 0, ymax = ThT_median*2, 
+            xmin = 0, xmax = 6, color = NA, fill = "red", alpha = 0.01) +
+  geom_point() +
+  facet_wrap(~ peptides) +
+  theme_bw() +
+  theme(text = element_text(size=15)) +
+  xlab("Dzień") +
+  scale_y_continuous("Fluorescencja (ThT)", 
+                     limits = c(0, ifelse(is.null(ymax), 
+                                          max(dat[["intensity"]]),
+                                          ymax))) +
+  theme(strip.text.x = element_text(margin = margin(0, 0, 0, 0, "cm"))) +
+  ggtitle(paste0("AmyLoad: ", dat[["AmyLoad"]][1], "; ThT: ", dat[["ThT"]][1]))
+  }
+
+intensities_plots <- lapply(split(peptydy_intensity_casted, peptydy_intensity_casted[["both"]]), 
+                            plot_intensities)
+intensities_plots_uniform <- lapply(split(peptydy_intensity_casted, peptydy_intensity_casted[["both"]]), 
+                                    plot_intensities, ymax = max(peptydy_intensity_casted[["intensity"]]))
+library(patchwork)
+
+
+intensity_plot_lines <- (intensities_plots_uniform[[1]] + intensities_plots_uniform[[2]])/(intensities_plots_uniform[[3]] + intensities_plots_uniform[[4]])
+
   
 ```
 
@@ -132,156 +174,156 @@ Created: 2018-11-28.
 
 Parsed: `r Sys.Date()`.
 
-## Amyloidy
+<!-- ## Amyloidy -->
 
-<style>
+<!-- <style> -->
 
-.column-left1{
-  float: left;
-  width: 45%;
-  text-align: left;
-}
+<!-- .column-left1{ -->
+<!--   float: left; -->
+<!--   width: 45%; -->
+<!--   text-align: left; -->
+<!-- } -->
 
-.column-right1{
-  float: right;
-  width: 55%;
-  text-align: right;
-}
-img {
-    width: auto;
-    height: auto;
-    object-fit: cover;
-}
-.fill {object-fit: fill;}
-.contain {object-fit: contain;}
-.cover {object-fit: cover;}
-.scale-down {object-fit: scale-down;}
-.none {object-fit: none;}
-</style>
+<!-- .column-right1{ -->
+<!--   float: right; -->
+<!--   width: 55%; -->
+<!--   text-align: right; -->
+<!-- } -->
+<!-- img { -->
+<!--     width: auto; -->
+<!--     height: auto; -->
+<!--     object-fit: cover; -->
+<!-- } -->
+<!-- .fill {object-fit: fill;} -->
+<!-- .contain {object-fit: contain;} -->
+<!-- .cover {object-fit: cover;} -->
+<!-- .scale-down {object-fit: scale-down;} -->
+<!-- .none {object-fit: none;} -->
+<!-- </style> -->
 
-<div class="column-left1">
-- skupiska białek lub peptydów, które uległy nieprawidłowemu sfałdowaniu
+<!-- <div class="column-left1"> -->
+<!-- - skupiska białek lub peptydów, które uległy nieprawidłowemu sfałdowaniu -->
 
-- zbudowane głównie ze struktur β
+<!-- - zbudowane głównie ze struktur β -->
 
-- włókna amyloidowe są nierozpuszczalne i wysoce odporne na degradację
+<!-- - włókna amyloidowe są nierozpuszczalne i wysoce odporne na degradację -->
 
-- skłonność peptydu do tworzenia amyloidu zależy od kilku czynników, takich jak sekwencja czy hydrofobowość
-</div>
+<!-- - skłonność peptydu do tworzenia amyloidu zależy od kilku czynników, takich jak sekwencja czy hydrofobowość -->
+<!-- </div> -->
 
-<div class="column-right1">
-<img class="cover" src="fig/amyloid_alzh.png" style="width:100%">
+<!-- <div class="column-right1"> -->
+<!-- <img class="cover" src="fig/amyloid_alzh.png" style="width:100%"> -->
 
-Agregaty amyloidowe blokujące komunikację między komórkami w chorobie Alzheimera
-</div>
+<!-- Agregaty amyloidowe blokujące komunikację między komórkami w chorobie Alzheimera -->
+<!-- </div> -->
 
-<!-- ## Alzheimer -->
+<!-- <!-- ## Alzheimer --> -->
 
-<!-- <img class="scale-down" src="fig/amyloid_alzh.png" style="width:95%" -->
+<!-- <!-- <img class="scale-down" src="fig/amyloid_alzh.png" style="width:95%" --> -->
 
-## Niektóre choroby wywołane przez niefunkcjonalne amyloidy
+<!-- ## Niektóre choroby wywołane przez niefunkcjonalne amyloidy -->
 
-- choroba Alzheimera
+<!-- - choroba Alzheimera -->
 
-- choroba Parkinsona
+<!-- - choroba Parkinsona -->
 
-- cukrzyca typu II
+<!-- - cukrzyca typu II -->
 
-- choroba Creutzfeldta-Jakoba
+<!-- - choroba Creutzfeldta-Jakoba -->
 
-- choroba Huntingtona
+<!-- - choroba Huntingtona -->
 
-- amyloidoza
+<!-- - amyloidoza -->
 
-- katarakta
+<!-- - katarakta -->
 
-## Amyloidy funkcjonalne
+<!-- ## Amyloidy funkcjonalne -->
 
-- występują w wielu systemach biologicznych
+<!-- - występują w wielu systemach biologicznych -->
 
-- wykryte w bakteriach, grzybach, insektach oraz ssakach
+<!-- - wykryte w bakteriach, grzybach, insektach oraz ssakach -->
 
-Funkcje:
+<!-- Funkcje: -->
 
-- przekazywanie sygnałów
+<!-- - przekazywanie sygnałów -->
 
-- antytmikrobiologiczne
+<!-- - antytmikrobiologiczne -->
 
-- strukturalne
-
-
-## Curli
-
-- system curli występuje w bakteriach z rodziny Enterobacteriace
-
-- system curli jest najlepiej poznanym systemem pozakomórkowych funkcjonalnych amyloidów
-
-- curli jest podstawowym białkowym składnikiem strukturalnym biofilmów
-
-- curli to funkcjonalne nanowłókna amyloidowe
-
-- system curli składa się z dwóch niezależnych operonów: csgBAC i csgDEFG
-
-- włókna mogą stanowić 10-40% całkowitej objętości biowłókien biofilmu
+<!-- - strukturalne -->
 
 
-## operon csgBAC i csgDEFG
-<style>
+<!-- ## Curli -->
 
-.column-left1{
-  float: left;
-  width: 40%;
-  text-align: left;
-}
+<!-- - system curli występuje w bakteriach z rodziny Enterobacteriace -->
 
-.column-right1{
-  float: right;
-  width: 60%;
-  text-align: right;
-}
-img {
-    width: auto;
-    height: auto;
-    object-fit: cover;
-}
-.fill {object-fit: fill;}
-.contain {object-fit: contain;}
-.cover {object-fit: cover;}
-.scale-down {object-fit: scale-down;}
-.none {object-fit: none;}
-</style>
+<!-- - system curli jest najlepiej poznanym systemem pozakomórkowych funkcjonalnych amyloidów -->
 
-<div class="column-right1">
-CsgA - duża podjednostka curli
+<!-- - curli jest podstawowym białkowym składnikiem strukturalnym biofilmów -->
 
-CsgB - mała podjednostka curli, nukleator  
+<!-- - curli to funkcjonalne nanowłókna amyloidowe -->
 
-CsgC - inhibitor csgA     
+<!-- - system curli składa się z dwóch niezależnych operonów: csgBAC i csgDEFG -->
 
-CsgD - główny regulator wzrostu biofilmów
+<!-- - włókna mogą stanowić 10-40% całkowitej objętości biowłókien biofilmu -->
 
-CsgE - peryplazmatyczne białko pomocnicze, kieruje do csgG 
 
-CsgF - białko pomocnicze ułatwiające csgB adhezję do powierzchnii komórki
+<!-- ## operon csgBAC i csgDEFG -->
+<!-- <style> -->
 
-CsgG - białko transportujące csgA na zewnątrz komórki
-</div>
+<!-- .column-left1{ -->
+<!--   float: left; -->
+<!--   width: 40%; -->
+<!--   text-align: left; -->
+<!-- } -->
 
-<div class="column-left1">
-<img class="cover" src="fig/operon.jpg" style="width:85%">
-</div>
+<!-- .column-right1{ -->
+<!--   float: right; -->
+<!--   width: 60%; -->
+<!--   text-align: right; -->
+<!-- } -->
+<!-- img { -->
+<!--     width: auto; -->
+<!--     height: auto; -->
+<!--     object-fit: cover; -->
+<!-- } -->
+<!-- .fill {object-fit: fill;} -->
+<!-- .contain {object-fit: contain;} -->
+<!-- .cover {object-fit: cover;} -->
+<!-- .scale-down {object-fit: scale-down;} -->
+<!-- .none {object-fit: none;} -->
+<!-- </style> -->
+
+<!-- <div class="column-right1"> -->
+<!-- CsgA - duża podjednostka curli -->
+
+<!-- CsgB - mała podjednostka curli, nukleator   -->
+
+<!-- CsgC - inhibitor csgA      -->
+
+<!-- CsgD - główny regulator wzrostu biofilmów -->
+
+<!-- CsgE - peryplazmatyczne białko pomocnicze, kieruje do csgG  -->
+
+<!-- CsgF - białko pomocnicze ułatwiające csgB adhezję do powierzchnii komórki -->
+
+<!-- CsgG - białko transportujące csgA na zewnątrz komórki -->
+<!-- </div> -->
+
+<!-- <div class="column-left1"> -->
+<!-- <img class="cover" src="fig/operon.jpg" style="width:85%"> -->
+<!-- </div> -->
 
 <!-- ## operon csgBAC i csgDEFG -->
 
 <!-- <img class="cover" src="fig/operon.jpg" style="width:40%"> -->
 
-## Cel badań
+<!-- ## Cel badań -->
 
-Celem pracy jest poznanie motywów odpowiedzialnych za agregację białka csgA.
+<!-- Celem pracy jest poznanie motywów odpowiedzialnych za agregację białka csgA. -->
 
-Badania przeprowadzane są na peptydach celem wytrenowania algorytmu przewidującego amyloidogenność oraz ze względu na wysokie koszty produkcji całego białka.
+<!-- Badania przeprowadzane są na peptydach celem wytrenowania algorytmu przewidującego amyloidogenność oraz ze względu na wysokie koszty produkcji całego białka. -->
 
-Różne warianty białka csgA do późniejszych badań będą produkowane przez zespół prof. Schieracka.
+<!-- Różne warianty białka csgA do późniejszych badań będą produkowane przez zespół prof. Schieracka. -->
 
 ## Cel pracy
 
@@ -305,6 +347,14 @@ Badania mają na celu kalibrację algorytmu AmyloGramu.
 
 - policzyliśmy wartości predykcji
 
+## Sposób wybrania 24 peptydów - schemat
+
+<img class="cover" src="fig/peptydy_wykres.png" style="width:75%">
+
+## AmyLoad - podwójna adnotacja
+
+<img class="cover" src="fig/amyload.png" style="width:100%">
+
 ## Metody
 
 Do sprawdzenia właściwości amyloidogennych użyliśmy metody ThT.
@@ -313,138 +363,143 @@ W późniejszych etapach użyty zostanie FTIR oraz AFM.
 
 Peptydy podczas syntezy de novo mogły zagregować. Do zaburzenia struktury III-rzędowej powszechnie stosowany jest NaOH.
 
-## ThT
+<!-- ## ThT -->
 
-- ThT jest naładowany dodatnio
+<!-- - ThT jest naładowany dodatnio -->
 
-- wiązania elektrostatyczne z ujemnie naładowymi resztami
+<!-- - wiązania elektrostatyczne z ujemnie naładowymi resztami -->
 
-- zmiana intensywności jest zależna od ilości miejsc wiążących ThT a nie stężenia włókien
+<!-- - zmiana intensywności jest zależna od ilości miejsc wiążących ThT a nie stężenia włókien -->
 
-## FTIR
+<!-- ## FTIR -->
 
-<img class="cover" src="fig/ftir.png" style="width:80%">
+<!-- <img class="cover" src="fig/ftir.png" style="width:80%"> -->
 
-## FTIR derywatywy
+<!-- ## FTIR pochodne -->
+<!-- <img class="cover" src="fig/ftir_der.png" style="width:80%"> -->
 
-<img class="cover" src="fig/ftir_der.png" style="width:80%">
+<!-- ## AFM -->
 
-## AFM
+<!-- <style> -->
 
-<style>
+<!-- .column-left1{ -->
+<!--   float: left; -->
+<!--   width: 48%; -->
+<!--   text-align: left; -->
+<!-- } -->
 
-.column-left1{
-  float: left;
-  width: 48%;
-  text-align: left;
-}
+<!-- .column-right1{ -->
+<!--   float: right; -->
+<!--   width: 48%; -->
+<!--   text-align: right; -->
+<!-- } -->
+<!-- img { -->
+<!--     width: auto; -->
+<!--     height: auto; -->
+<!--     object-fit: cover; -->
+<!-- } -->
+<!-- .fill {object-fit: fill;} -->
+<!-- .contain {object-fit: contain;} -->
+<!-- .cover {object-fit: cover;} -->
+<!-- .scale-down {object-fit: scale-down;} -->
+<!-- .none {object-fit: none;} -->
+<!-- </style> -->
 
-.column-right1{
-  float: right;
-  width: 48%;
-  text-align: right;
-}
-img {
-    width: auto;
-    height: auto;
-    object-fit: cover;
-}
-.fill {object-fit: fill;}
-.contain {object-fit: contain;}
-.cover {object-fit: cover;}
-.scale-down {object-fit: scale-down;}
-.none {object-fit: none;}
-</style>
+<!-- <div class="column-left1"> -->
+<!-- <img class="cover" src="fig/mica.png" style="width:100%"> -->
+<!-- </div> -->
 
-<div class="column-left1">
-<img class="cover" src="fig/mica.png" style="width:100%">
-</div>
+<!-- <div class="column-right1"> -->
+<!-- <img class="cover" src="fig/afm.jpg" style="width:100%"> -->
 
-<div class="column-right1">
-<img class="cover" src="fig/afm.jpg" style="width:100%">
+<!-- </div> -->
 
-</div>
+<!-- ## AFM -->
 
-## AFM
+<!-- <style> -->
 
-<style>
+<!-- .column-left1{ -->
+<!--   float: left; -->
+<!--   width: 48%; -->
+<!--   text-align: left; -->
+<!-- } -->
 
-.column-left1{
-  float: left;
-  width: 48%;
-  text-align: left;
-}
+<!-- .column-right1{ -->
+<!--   float: right; -->
+<!--   width: 48%; -->
+<!--   text-align: right; -->
+<!-- } -->
+<!-- img { -->
+<!--     width: auto; -->
+<!--     height: auto; -->
+<!--     object-fit: cover; -->
+<!-- } -->
+<!-- .fill {object-fit: fill;} -->
+<!-- .contain {object-fit: contain;} -->
+<!-- .cover {object-fit: cover;} -->
+<!-- .scale-down {object-fit: scale-down;} -->
+<!-- .none {object-fit: none;} -->
+<!-- </style> -->
 
-.column-right1{
-  float: right;
-  width: 48%;
-  text-align: right;
-}
-img {
-    width: auto;
-    height: auto;
-    object-fit: cover;
-}
-.fill {object-fit: fill;}
-.contain {object-fit: contain;}
-.cover {object-fit: cover;}
-.scale-down {object-fit: scale-down;}
-.none {object-fit: none;}
-</style>
+<!-- <div class="column-left1"> -->
+<!-- <img class="cover" src="fig/afm1.jpg" style="width:100%"> -->
+<!-- </div> -->
 
-<div class="column-left1">
-<img class="cover" src="fig/afm1.jpg" style="width:100%">
-</div>
+<!-- <div class="column-right1"> -->
+<!-- <img class="cover" src="fig/afm2.jpg" style="width:100%"> -->
 
-<div class="column-right1">
-<img class="cover" src="fig/afm2.jpg" style="width:100%">
-
-</div>
+<!-- </div> -->
 
 ## Peptydy wzorcowe
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
 plot_wzorzec +
   xlab("Pochodzenie adnotacji") +
   ylab("Peptyd")
 ```
 
-## Intensywnośc peptydow amyloidowych
+## Intensywnośc fluorescencji peptydow
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
-peptydy_intensity_plot_amyloid
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
+intensity_plot_lines
 ```
 
-## Intensywnośc peptydow nieamyloidowych
+<!-- ## Intensywnośc peptydow amyloidowych -->
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
-peptydy_intensity_plot_nonamyloid
-```
+<!-- ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8} -->
+<!-- peptydy_intensity_plot_amyloid -->
+<!-- ``` -->
+
+<!-- ## Intensywnośc peptydow nieamyloidowych -->
+
+<!-- ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8} -->
+<!-- peptydy_intensity_plot_nonamyloid -->
+<!-- ``` -->
 
 
-## Intensywność po normalizacji
+<!-- ## Intensywność po normalizacji -->
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=3}
-intensity_plot +
-  ylab("Intensywność po normalizacji") +
-  xlab("Peptyd")
-```
+<!-- ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=3} -->
+<!-- intensity_plot + -->
+<!--   ylab("Intensywność po normalizacji") + -->
+<!--   xlab("Peptyd") -->
+<!-- ``` -->
 
 ## Wyniki barwienia ThT
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
 peptydy_plot +
   xlab("Pochodzenie adnotacji") +
   ylab("Peptyd")
 ```
 
-## Porównanie wyników
+<!-- ## Porównanie wyników -->
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8}
-marlena_plot +
-  xlab("Pochodzenie adnotacji") +
-  ylab("Peptyd")
-```
+<!-- ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8} -->
+<!-- marlena_plot + -->
+<!--   xlab("Pochodzenie adnotacji") + -->
+<!--   ylab("Peptyd") -->
+<!-- ``` -->
 
 ## Dalsze działania
 

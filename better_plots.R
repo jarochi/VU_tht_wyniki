@@ -52,21 +52,30 @@ peptydy_intensity_casted <- inner_join(peptydy_intensity, peptydy, by=c("peptide
   dcast(peptides + day + intensity~ method) %>% 
   mutate(both = paste0(AmyLoad, ThT)) 
 
-plot_intensities <- function(dat){
+
+plot_intensities <- function(dat, ymax = NULL){
   ggplot(dat, aes(x = day, y = intensity)) +
-  geom_point() +
   geom_hline(yintercept = ThT_median, color = "red") +
+  geom_rect(ymin = 0, ymax = ThT_median*2, 
+            xmin = 0, xmax = 6, color = NA, fill = "red", alpha = 0.01) +
+  geom_point() +
   facet_wrap(~ peptides) +
   theme_bw() +
   xlab("Dzień") +
-  ylab("Fluorescencja (ThT)") +
+  scale_y_continuous("Fluorescencja (ThT)", 
+                     limits = c(0, ifelse(is.null(ymax), 
+                                          max(dat[["intensity"]]),
+                                          ymax))) +
   theme(strip.text.x = element_text(margin = margin(0, 0, 0, 0, "cm"))) +
   ggtitle(paste0("AmyLoad: ", dat[["AmyLoad"]][1], "; ThT: ", dat[["ThT"]][1]))
   }
 
-intensities_plots <- lapply(split(peptydy_intensity_casted, peptydy_intensity_casted[["both"]]), plot_intensities)
-
+intensities_plots <- lapply(split(peptydy_intensity_casted, peptydy_intensity_casted[["both"]]), 
+                            plot_intensities)
+intensities_plots_uniform <- lapply(split(peptydy_intensity_casted, peptydy_intensity_casted[["both"]]), 
+                                    plot_intensities, ymax = max(peptydy_intensity_casted[["intensity"]]))
 library(patchwork)
 
-(intensities_plots[[1]] + intensities_plots[[2]])/(intensities_plots[[3]] + intensities_plots[[4]])
+
+(intensities_plots_uniform[[1]] + intensities_plots_uniform[[2]])/(intensities_plots_uniform[[3]] + intensities_plots_uniform[[4]])
 
