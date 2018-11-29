@@ -93,7 +93,7 @@ plot_wzorzec <- ggplot(wzorzec, aes(x = method, y = Peptyd, fill = result)) +
   theme(text = element_text(size=5))
 
 
-intensity_plot <- inner_join(pp_aggr, peptydy, by=c("peptides" = "peptide")) %>% 
+intensity_plot <- inner_join(peptydy_intensity_aggr, peptydy, by=c("peptides" = "peptide")) %>% 
   filter(method %in% c("AmyLoad", "ThT")) %>% 
   dcast(peptides + day + intensity~ method) %>% 
   group_by(peptides) %>% 
