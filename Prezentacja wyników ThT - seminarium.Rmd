@@ -485,7 +485,17 @@ W późniejszych etapach badania będą prowadzone nad całymi białkami csgA. O
 </div>
 
 
-## Dalsze prace
+## Dalsze prace - peptydy
 
-Przedział ufności dla predykcji (Quantifying Uncertainty in Random Forests via Confidence
-Intervals and Hypothesis Tests)
+Przedział ufności dla predykcji: (Quantifying Uncertainty in Random Forests via Confidence
+Intervals and Hypothesis Tests, Journal of Machine Learning Research, 2016).
+
+Wysokie/niskie prawdopodobieństwo nie przekłada się na pewność predykcji.
+
+## Dalsze prace - peptydy
+
+Jakie motywy aminokwasowe wpłynęły na ocenę peptydów? Jak bardzo podobne peptydy zostaly ocenione przeciwnie?
+
+## Dalsze prace - peptydy
+
+Analiza bibliograficzna: powtórzenie badań peptydów uwzględniając warunki reakcji ze zgłaszających ich publikacji.
