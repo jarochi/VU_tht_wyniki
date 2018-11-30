@@ -61,8 +61,8 @@ plot_intensities <- function(dat, ymax = NULL){
   geom_point() +
   facet_wrap(~ peptides) +
   theme_bw() +
-  xlab("Dzień") +
-  scale_y_continuous("Fluorescencja (ThT)", 
+  xlab("Day") +
+  scale_y_continuous("Fluorescence itensity (ThT)", 
                      limits = c(0, ifelse(is.null(ymax), 
                                           max(dat[["intensity"]]),
                                           ymax))) +
