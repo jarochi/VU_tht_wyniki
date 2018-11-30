@@ -430,6 +430,30 @@ plot_wzorzec +
 intensity_plot_lines
 ```
 
+## Intensywnośc fluorescencji peptydow
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
+intensity_plots[1]
+```
+
+## Intensywnośc fluorescencji peptydow
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
+intensity_plots[2]
+```
+
+## Intensywnośc fluorescencji peptydow
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
+intensity_plots[3]
+```
+
+## Intensywnośc fluorescencji peptydow
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
+intensity_plots[4]
+```
+
 <!-- ## Intensywnośc peptydow amyloidowych -->
 
 <!-- ```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=5,fig.height=2.8} -->

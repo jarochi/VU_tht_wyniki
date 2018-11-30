@@ -79,3 +79,4 @@ library(patchwork)
 
 (intensities_plots_uniform[[1]] + intensities_plots_uniform[[2]])/(intensities_plots_uniform[[3]] + intensities_plots_uniform[[4]])
 
+(intensities_plots[[1]] + intensities_plots[[2]])/(intensities_plots[[3]] + intensities_plots[[4]])
