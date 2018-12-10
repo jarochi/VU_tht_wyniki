@@ -37,7 +37,7 @@ peptydy_plot <- ggplot(peptydy, aes(x = method, y = peptide, fill = result)) +
 
 marlena <- read.csv("amyloid_heatmap_Marlena.csv")
 marlena <- marlena[1:(nrow(marlena)-1),] %>% 
-  gather("method", "result", 2:5)
+  gather("method", "result", 2:6)
 
 pep_order_m <- filter(marlena, method == "AmyLoad") %>% arrange(result) %>%  pull(peptide) %>% as.character
 
@@ -47,7 +47,7 @@ marlena_plot <- ggplot(marlena, aes(x = method, y = peptide, fill = result)) +
   geom_tile() +
   geom_tile(aes(fill = result), color = "white") +
   # scale_fill_manual(values=c("red", "lightgreen")) +
-  scale_x_discrete(limits=c("AmyLoad","ThT", "Marlena", "Vytautas")) +
+  scale_x_discrete(limits=c("AmyLoad","ThT", "Marlena_stare", "Marlena_nowe", "Vytautas")) +
   theme_bw() +
   theme(text = element_text(size=9))
 
@@ -422,6 +422,16 @@ Peptydy podczas syntezy de novo mogły zagregować. Do zaburzenia struktury III-
 plot_wzorzec +
   xlab("Pochodzenie adnotacji") +
   ylab("Peptyd")
+
+marlena_plot
+```
+
+## 24 peptydy
+
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
+marlena_plot +
+  xlab("Pochodzenie adnotacji") +
+  ylab("Peptyd")
 ```
 
 ## Intensywnośc fluorescencji peptydow
@@ -432,26 +442,26 @@ intensity_plot_lines
 
 ## Intensywnośc fluorescencji peptydow
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
-intensity_plots[1]
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5}
+intensities_plots[1]
 ```
 
 ## Intensywnośc fluorescencji peptydow
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
-intensity_plots[2]
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5}
+intensities_plots[2]
 ```
 
 ## Intensywnośc fluorescencji peptydow
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
-intensity_plots[3]
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5}
+intensities_plots[3]
 ```
 
 ## Intensywnośc fluorescencji peptydow
 
-```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5.5}
-intensity_plots[4]
+```{r, echo=FALSE,message=FALSE,warning=FALSE,fig.width=9,fig.height=5}
+intensities_plots[4]
 ```
 
 <!-- ## Intensywnośc peptydow amyloidowych -->
